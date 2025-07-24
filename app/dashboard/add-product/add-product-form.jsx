@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Loader2 } from "lucide-react";
 import axios from "axios";
 import {
@@ -31,21 +31,66 @@ export default function AddProductForm() {
   const { toast } = useToast();
   const [catgry, setCatgry] = useState(null);
   const [categories, setCategories] = useState([]);
+  const formRef = useRef(null);
 
   useEffect(() => {
     getCategories().then(setCategories).catch(console.error);
   }, []);
 
 
+  const [nameError, setNameError] = useState("");
+  const [priceError, setPriceError] = useState("");
+  const [quantError, setQuantError] = useState("");
+  const [catgryError, setCatgryError] = useState("");
+
+  
   const handleSubmitForm = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    event?.preventDefault();
+    const formData = new FormData(event?.currentTarget);
     const name = formData.get("pname")?.toString();
     const descp = formData.get("descp")?.toString();
     const price = Number(formData.get("Price"));
     const quant = Number(formData.get("quant"));
 
-    if (name && price && quant && catgry) {
+    
+  
+    const validateForm = () => {
+  
+      if (!name) {
+        setNameError("Product name is required!");
+        return false;
+      } else {
+        setNameError("");
+      }
+  
+      if (!price) {
+        setPriceError("Price is required!");
+        return false;
+      } else {
+        setPriceError("");
+      }
+  
+      if (!quant) {
+        setQuantError("Ouantity is required!");
+        return false;
+      } else {
+        setQuantError("");
+      }
+  
+      if (!catgry) {
+        setCatgryError("Category is required!");
+        return false;
+      } else {
+        setCatgryError("");
+      }
+  
+      return true;
+    };
+
+
+    const isValid = validateForm();
+
+    if (isValid) {
       setLoading(true);
       
       const productData = {
@@ -70,6 +115,14 @@ export default function AddProductForm() {
           title: "Product Added Successfully!",
           description: "Product was added to database.",
         });
+
+        formRef.current?.reset();
+        setCatgry(null); // reset category select
+        setNameError("");
+        setPriceError("");
+        setQuantError("");
+        setCatgryError("");
+
       }
     }
   };
@@ -80,7 +133,7 @@ export default function AddProductForm() {
         <CardTitle>Add Product</CardTitle>
         <CardDescription>Add a product to database.</CardDescription>
       </CardHeader>
-      <form onSubmit={handleSubmitForm}>
+      <form ref={formRef} onSubmit={handleSubmitForm}>
         <CardContent className="space-y-4">
           <div>
             <Label htmlFor="pname">Product Name</Label>
@@ -89,6 +142,12 @@ export default function AddProductForm() {
               name="pname"
               placeholder="Enter the product name]"
             />
+
+
+            {nameError && (
+                            <div className="text-red-600 text-xs mt-2 ml-1">{nameError}</div>
+                            )}
+
           </div>
 
           <div>
@@ -108,6 +167,11 @@ export default function AddProductForm() {
               type="number"
               placeholder="Enter the Price"
             />
+
+                {priceError && (
+                  <div className="text-red-600 text-xs mt-2 ml-1">{priceError}</div>
+                )}
+
           </div>
 
           <div>
@@ -118,12 +182,16 @@ export default function AddProductForm() {
               type="number"
               placeholder="Enter the quantity"
             />
+
+                {quantError && (
+                  <div className="text-red-600 text-xs mt-2 ml-1">{quantError}</div>
+                )}
           </div>
 
 
           <div>
             <Label htmlFor="catgry">Category</Label>
-            <Select onValueChange={(val) => setCatgry(parseInt(val, 10))}>
+            <Select value={catgry !== null ? String(catgry) : ""} onValueChange={(val) => setCatgry(parseInt(val, 10))}>
               <SelectTrigger>
                 <SelectValue placeholder="Select a rating" />
               </SelectTrigger>
@@ -136,6 +204,13 @@ export default function AddProductForm() {
                 
               </SelectContent>
             </Select>
+
+            
+            {catgryError && (
+                  <div className="text-red-600 text-xs mt-2 ml-1">{catgryError}</div>
+                )}
+
+
           </div>
 
         </CardContent>
