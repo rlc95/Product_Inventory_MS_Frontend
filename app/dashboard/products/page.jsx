@@ -11,11 +11,11 @@ import {
 import { Button } from "@/components/ui/button";
 import ProductData from "./product-data";
 
-export default function MoviesPage() {
+export default function ProductsPage() {
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
-        <Link href="/movies">
+        <Link href="/products">
           <Button variant="outline">
             <Eye />
             View as User

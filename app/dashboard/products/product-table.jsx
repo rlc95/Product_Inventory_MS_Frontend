@@ -12,11 +12,10 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import EditProductForm from "./edit-product-form";
-//import { updateMovie, deleteMovie } from "@/lib/actions/movie";
-import DeleteMovieDialog from "./delete-product-dialog";
+import DeleteProductDialog from "./delete-product-dialog";
 import Image from "next/image";
 
-export default function MovieTable({ movies, onRefresh }) {
+export default function ProductTable({ products, onRefresh }) {
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -24,13 +23,13 @@ export default function MovieTable({ movies, onRefresh }) {
   const router = useRouter();
   
 
-  const handleEdit = (movie) => {
-    setEditingProduct(movie);
+  const handleEdit = (product) => {
+    setEditingProduct(product);
   };
 
-  const handleEditSubmit = async (movie) => {
+  const handleEditSubmit = async (product) => {
     // JavaScript ES6 Destructuring
-    const { id, name, desc, price, quanty, category_id } = movie;
+    const { id, name, desc, price, quanty, category_id } = product;
     setIsSaving(true);
     const productData = {
         name: name,
@@ -65,8 +64,8 @@ export default function MovieTable({ movies, onRefresh }) {
 
   };
 
-  const handleDelete = (movie) => {
-    setDeletingProduct(movie);
+  const handleDelete = (product) => {
+    setDeletingProduct(product);
   };
 
   const handleDeleteConfirm = async (pId) => {
@@ -107,24 +106,24 @@ export default function MovieTable({ movies, onRefresh }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {movies.map((movie) => (
-            <TableRow key={movie.id}>
+          {products.map((product) => (
+            <TableRow key={product.id}>
               <TableCell>
                  
 
               </TableCell>
-              <TableCell>{movie?.name ?? "N/A"}</TableCell>
-              <TableCell>{movie?.desc ?? "N/A"}</TableCell>
-              <TableCell>{movie?.price ?? "N/A"}</TableCell>
-              <TableCell>{movie?.quanty ?? "N/A"}</TableCell>
-              <TableCell>{movie?.category_id?? "N/A"}</TableCell>
+              <TableCell>{product?.name ?? "N/A"}</TableCell>
+              <TableCell>{product?.desc ?? "N/A"}</TableCell>
+              <TableCell>{product?.price ?? "N/A"}</TableCell>
+              <TableCell>{product?.quanty ?? "N/A"}</TableCell>
+              <TableCell>{product?.category_id?? "N/A"}</TableCell>
               <TableCell>
                 <div className="flex justify-end space-x-2">
                   <Button
                     variant="outline"
                     size="sm"
                     className="min-w-[120px]"
-                    onClick={() => handleEdit(movie)}
+                    onClick={() => handleEdit(product)}
                   >
                     Edit
                   </Button>
@@ -132,7 +131,7 @@ export default function MovieTable({ movies, onRefresh }) {
                     variant="destructive"
                     size="sm"
                     className="min-w-[120px]"
-                    onClick={() => handleDelete(movie)}
+                    onClick={() => handleDelete(product)}
                   >
                     Delete
                   </Button>
@@ -152,7 +151,7 @@ export default function MovieTable({ movies, onRefresh }) {
         />
       )}
       {deletingProduct && (
-        <DeleteMovieDialog
+        <DeleteProductDialog
           product={deletingProduct}
           open={true}
           onCancel={() => setDeletingProduct(null)}

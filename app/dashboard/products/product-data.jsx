@@ -29,5 +29,5 @@ export default function ProductData() {
     category_name: product.category_name,
   }));
 
-  return <ProductTable movies={refinedProduct} onRefresh={fetchProducts} />;
+  return <ProductTable products={refinedProduct} onRefresh={fetchProducts} />;
 }

@@ -4,18 +4,15 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard,
   Film,
   PlusCircle,
-  Users,
-  Settings,
   Menu,
   X,
 } from "lucide-react";
 
 const navLinks = [
-  { href: "/dashboard/movies", label: "Product", icon: Film },
-  { href: "/dashboard/add-movie", label: "Add Product", icon: PlusCircle },
+  { href: "/dashboard/products", label: "Product", icon: Film },
+  { href: "/dashboard/add-product", label: "Add Product", icon: PlusCircle },
 
 ];
 

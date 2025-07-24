@@ -22,7 +22,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { getCategories } from "@/lib/apis/catgry";
 
-export default function EditMovieForm({
+export default function EditProductForm({
   product,
   open,
   onSubmit,
@@ -50,7 +50,7 @@ export default function EditMovieForm({
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    // Save the updated movie to the database
+    // Save the updated product to the database
     onSubmit({
       ...product,
       name,
@@ -145,7 +145,7 @@ export default function EditMovieForm({
                 Clear Form
               </Button>
               <Button type="submit" disabled={isLoading}>
-                {isLoading && <Loader2 className="animate-spin" />} Add Movie
+                {isLoading && <Loader2 className="animate-spin" />} Edit Product
               </Button>
             </div>
           </div>
